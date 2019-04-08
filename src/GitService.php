@@ -77,7 +77,7 @@ class GitService
         if(!empty($bashFile)){
             return $this->runBash($bashFile);
         }
-        return $this;
+        return;
     }
 
     /**
@@ -92,7 +92,7 @@ class GitService
         if(!empty($bashFile)){
             return $this->runBash($bashFile);
         }
-        return $this;
+        return;
     }
 
     /**
@@ -107,7 +107,7 @@ class GitService
         $path = base_path('webhookscripts/' . $bashFile);
 
         if(!file_exists($path)){
-            return false;
+            return;
         }
 
         $command = $path;
@@ -126,7 +126,7 @@ class GitService
             // Emit event got failed git webhook deployment
             event(new GitWebhookDeployFailed($error));
 
-            return $this;
+            return;
         }
 
         return trim($process->getOutput());
