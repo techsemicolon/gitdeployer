@@ -16,7 +16,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "techsemicolon\\gitdeployer\\GitdeployerServiceProvider"
+                "Techsemicolon\\Gitdeployer\\GitdeployerServiceProvider"
             ]
         }
     }
