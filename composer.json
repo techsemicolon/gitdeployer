@@ -11,7 +11,7 @@
     "require": {
         "php": ">=5.4.0",
         "symfony/process": "^3|^4",
-        "carbon/carbon" : "^2"
+        "nesbot/carbon" : "^1.x.x|^2"
     },
     "extra": {
         "laravel": {
