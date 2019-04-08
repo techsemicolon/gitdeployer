@@ -15,7 +15,8 @@ class GitdeployerServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/routes.php');
         $this->publishes([
-            __DIR__.'/deploy.sh' => base_path('webhookscripts/deploy.sh'),
+            __DIR__.'/webhookscripts/deploy.sh' => base_path('webhookscripts/deploy.sh'),
+            __DIR__.'/git.php' => config_path('git.php'),
         ]);
     }
 
