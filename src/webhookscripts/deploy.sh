@@ -1,10 +1,12 @@
 #!/bin/sh
 
+gitdir=${1:-''}
+
 # activate maintenance mode
 # php artisan down
 
 # update source code
-git pull
+git pull $gitdir
 
 # update PHP dependencies
 export COMPOSER_HOME='/tmp/composer'

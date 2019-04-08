@@ -15,7 +15,9 @@ class GitService
      */
     public function getCurrentBranch()
     {
-        $process = new Process('git rev-parse --abbrev-ref HEAD', base_path());
+        $gitDir = $this->getGitDir();
+
+        $process = new Process('git ' . $gitDir .'rev-parse --abbrev-ref HEAD', base_path());
         $process->run();
         if (!$process->isSuccessful()) {
             
@@ -31,13 +33,24 @@ class GitService
     }
 
     /**
+     * Specify git dir
+     * 
+     * @return string
+     */
+    private function getGitDir()
+    {
+        return empty(config('git.dir')) ? '' : '--git-dir=' . config('git.dir');
+    }
+    /**
      * Get current git repository
      *
      * @return string
      */
     public function getCurrentRepository()
     {
-        $process = new Process('basename $(git remote get-url origin)', base_path());
+        $gitDir = $this->getGitDir();
+
+        $process = new Process('basename $(git ' . $gitDir . ' remote get-url origin)', base_path());
         $process->run();
         if (!$process->isSuccessful()) {
             
@@ -89,13 +102,21 @@ class GitService
      */
     private function runBash($bashFile)
     {
+        $gitDir = $this->getGitDir();
+        
         $path = base_path('webhookscripts/' . $bashFile);
 
         if(!file_exists($path)){
             return false;
         }
 
-        $process = new Process($path, base_path());
+        $command = $path;
+
+        if($gitDir){
+            $command .= ' ' . $gitDir;
+        }
+        
+        $process = new Process($command, base_path());
         $process->run();
 
         if (!$process->isSuccessful()) {
