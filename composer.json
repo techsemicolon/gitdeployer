@@ -7,12 +7,17 @@
             "email": "mihirbhende1201@gmail.com"
         }
     ],
-    "require": {},
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0",
+        "symfony/process": "^3|^4",
+        "carbon/carbon" : "^2"
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "techsemicolon\\gitdeployer\\GitdeployerServiceProvider"
             ]
         }
-    },
+    }
 }
