@@ -1,2 +1,2 @@
 <?php
-Route::get('/git/webhook', 'Techsemicolon\Gitdeployer\GitController@pull');
+Route::post('/git/webhook', 'Techsemicolon\Gitdeployer\GitController@pull');

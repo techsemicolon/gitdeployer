@@ -8,7 +8,11 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class GitService
 {
-    
+    /**
+     * Get current active branch
+     *
+     * @return string
+     */
     public function getCurrentBranch()
     {
         $process = new Process('git rev-parse --abbrev-ref HEAD', base_path());
@@ -16,6 +20,8 @@ class GitService
         if (!$process->isSuccessful()) {
             
             $error = (new ProcessFailedException($process))->getMessage();
+
+            // Emit event got failed git webhook deployment
             event(new GitWebhookDeployFailed($error));
             
             return;
@@ -24,7 +30,11 @@ class GitService
         return trim($process->getOutput());
     }
 
-
+    /**
+     * Get current git repository
+     *
+     * @return string
+     */
     public function getCurrentRepository()
     {
         $process = new Process('basename $(git remote get-url origin)', base_path());
@@ -42,6 +52,11 @@ class GitService
         return $repo;
     }
 
+    /**
+     * Run webhook before script
+     *
+     * @return string|void
+     */
     public function runBeforeScript()
     {
         $bashFile = config('git.before_script');
@@ -52,6 +67,11 @@ class GitService
         return $this;
     }
 
+    /**
+     * Run webhook after script
+     *
+     * @return string|void
+     */
     public function runAfterScript()
     {
         $bashFile = config('git.after_script');
@@ -62,6 +82,11 @@ class GitService
         return $this;
     }
 
+    /**
+     * Run bash
+     *
+     * @return string|void
+     */
     private function runBash($bashFile)
     {
         $path = base_path('webhookscripts/' . $bashFile);
@@ -76,6 +101,8 @@ class GitService
         if (!$process->isSuccessful()) {
             
             $error = (new ProcessFailedException($process))->getMessage();
+
+            // Emit event got failed git webhook deployment
             event(new GitWebhookDeployFailed($error));
 
             return $this;
@@ -84,11 +111,21 @@ class GitService
         return trim($process->getOutput());
     }
 
+    /**
+     * Run webhook pull script
+     *
+     * @return string|void
+     */
     public function pullTheLatestReleases()
     {
         return $this->runBash('deploy.sh');
     }
 
+    /**
+     * Check if the current branch was updated
+     *
+     * @return bool
+     */
     public function checkIfCurrentBranchWasUpdated($payload){
 
         $branch = $this->getCurrentBranch();
@@ -112,6 +149,12 @@ class GitService
         return false;
     }
     
+    /**
+     * Check if the request is coming from
+     * valid IP addresses
+     *
+     * @return bool
+     */
     public function isValidRequestIp($ip)
     {
         $bitbucketIpRanges = config('git.bitbucket_ips');
@@ -126,6 +169,11 @@ class GitService
         return false;
     }
 
+    /**
+     * Check if IP belongs to IP range
+     *
+     * @return string|void
+     */
     private function ipInRange($ip, $range){
 
         if ( strpos( $range, '/' ) == false ) {
