@@ -52,6 +52,7 @@ class GitService
 
         $process = new Process('basename $(git ' . $gitDir . ' remote get-url origin)', base_path());
         $process->run();
+        
         if (!$process->isSuccessful()) {
             
             $error = (new ProcessFailedException($process))->getMessage();
