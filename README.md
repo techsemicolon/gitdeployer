@@ -215,7 +215,7 @@ php artisan up
 
 Note : the bash variable `gitdir` is required to make sure it uses git-dir configuration if you specify it in config file.
 
-## Known problems : 
+## Few points to note : 
 
 1. The package runs bash scripts using `symfony/process`. So make sure the bash scripts inside `webhookscripts` directory have required permissions to make them executables.
 
