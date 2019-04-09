@@ -7,6 +7,7 @@
             "email": "mihirbhende1201@gmail.com"
         }
     ],
+    "description": "Git webhook deployer package for laravel currently integrated with bitbucket",
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.4.0",
