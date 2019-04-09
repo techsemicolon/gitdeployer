@@ -225,4 +225,4 @@ Note : the bash variable `gitdir` is required to make sure it uses git-dir confi
 
 ## License : 
 
-This psckage is open-sourced software licensed under the MIT license
+This package is open-sourced software licensed under the MIT license
