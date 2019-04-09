@@ -114,7 +114,63 @@ return [
     ],
 ];
 ~~~
+## Events to get the deployment output : 
 
+It's crutial to know what happened when script ran, what was the output from the server console. The package emits events which you can listen to. The events have time, console output and errors.
+
+Success Event : 
+
+~~~php
+<?php
+
+namespace Techsemicolon\Gitdeployer\Events;
+
+class GitWebhookWasDeployed
+{
+    public $time;
+
+    public $output;
+
+    /**
+     * Create a new event instance.
+     *
+     * @param  integer $time
+     * @param  string  $output
+     * 
+     * @return void
+     */
+    public function __construct($time, $output)
+    {
+        $this->time = $time;
+        $this->output = $output;
+    }
+}
+~~~
+
+Failed Event : 
+
+~~~php
+<?php
+
+namespace Techsemicolon\Gitdeployer\Events;
+
+class GitWebhookDeployFailed
+{
+    public $error;
+
+    /**
+     * Create a new event instance.
+     *
+     * @param  string  $error
+     * 
+     * @return void
+     */
+    public function __construct($error)
+    {
+        $this->error = $error;
+    }
+}
+~~~
 ## Main deployment script : 
 
 Below is the default `deploy.sh` script. You can definitely change it as per your needs. 
